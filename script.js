@@ -1,7 +1,16 @@
 document.addEventListener('DOMContentLoaded', () => {
     const container = document.getElementById('game-container');
     const numberOfPlatforms = 100;
-    
+
+    // Variables for player movement and jump
+    let playerPosX = window.innerWidth / 2 - 25; // Start horizontally centered
+    let playerPosY = window.innerHeight - 50; // Start at the bottom of the screen
+    let velocityY = 0;
+    let gravity = 1;
+    let jumpHeight = -15; // Control the height of the jump
+    let moveLeft = false;
+    let moveRight = false;
+
     // Create 100 platforms dynamically
     for (let i = 1; i <= numberOfPlatforms; i++) {
         const platform = document.createElement('div');
@@ -10,11 +19,12 @@ document.addEventListener('DOMContentLoaded', () => {
         container.appendChild(platform);
     }
 
-    // Example platform random position
     const platforms = document.querySelectorAll('.platform');
+    
+    // Randomly position the platforms with more vertical spacing
     platforms.forEach(platform => {
-        const randomTop = Math.random() * 500; // Random top position
-        const randomLeft = Math.random() * (window.innerWidth - 100); // Random left position
+        const randomTop = Math.random() * (window.innerHeight * 2); // Spread vertically
+        const randomLeft = Math.random() * (window.innerWidth - 100); // Spread horizontally
         platform.style.top = `${randomTop}px`;
         platform.style.left = `${randomLeft}px`;
     });
@@ -24,21 +34,17 @@ document.addEventListener('DOMContentLoaded', () => {
     player.classList.add('player');
     container.appendChild(player);
 
-    let playerPosX = window.innerWidth / 2;
-    let playerPosY = window.innerHeight - 50; // Start at the bottom of the screen
-    let velocityY = 0;
-    let gravity = 1;
-
-    // Player movement setup
-    let moveLeft = false;
-    let moveRight = false;
+    // Camera setup (tracks player position)
+    const cameraSpeed = 5;
+    let cameraOffsetX = 0;
+    let cameraOffsetY = 0;
 
     // Listen for key events
     window.addEventListener('keydown', (e) => {
         if (e.key === 'ArrowLeft') moveLeft = true;
         if (e.key === 'ArrowRight') moveRight = true;
         if (e.key === ' ' && playerPosY === window.innerHeight - 50) {
-            velocityY = -15; // Jump
+            velocityY = jumpHeight; // Jump
         }
     });
 
@@ -49,7 +55,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Game loop
     function gameLoop() {
-        // Apply gravity
+        // Apply gravity to the player
         velocityY += gravity;
         playerPosY += velocityY;
 
@@ -85,6 +91,22 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             }
         });
+
+        // Camera follow player
+        if (playerPosX > window.innerWidth / 2) {
+            cameraOffsetX += cameraSpeed;
+        } else {
+            cameraOffsetX -= cameraSpeed;
+        }
+
+        if (playerPosY > window.innerHeight / 2) {
+            cameraOffsetY += cameraSpeed;
+        } else {
+            cameraOffsetY -= cameraSpeed;
+        }
+
+        // Apply camera offset to the game container to simulate camera movement
+        container.style.transform = `translate(${-cameraOffsetX}px, ${-cameraOffsetY}px)`;
 
         // Call the game loop again
         requestAnimationFrame(gameLoop);
