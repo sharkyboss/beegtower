@@ -1,35 +1,38 @@
-* {
+/* General reset and basic styling */
+body, html {
     margin: 0;
     padding: 0;
-    box-sizing: border-box;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    font-family: Arial, sans-serif;
+    background-color: #87ceeb; /* Sky color for background */
 }
+
+/* Game container styling */
+#game-container {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    background-color: #87ceeb; /* Sky color for background */
+    overflow: hidden; /* Prevent scrolling */
+}
+
+/* Platform styling */
+.platform {
+    position: absolute;
+    width: 100px; /* Platform width */
+    height: 20px;  /* Platform height */
+    background-color: #654321; /* Brown color for platform */
+    border-radius: 5px;
+}
+
+/* Player styling */
 .player {
     position: absolute;
     width: 50px;
     height: 50px;
     background-color: #ff0000; /* Red color */
     border-radius: 50%;
-    transition: left 0.1s, top 0.1s;
-}
-
-.platform {
-    position: absolute;
-    width: 100px;
-    height: 20px;
-    background-color: #654321; /* Brown color */
-    border-radius: 5px;
-}
-
-
-body, html {
-    height: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: #1a1a1a;
-}
-
-canvas {
-    background-color: #222;
-    border: 2px solid #fff;
+    transition: left 0.1s, top 0.1s; /* Smooth transitions */
 }
