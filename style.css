@@ -16,6 +16,7 @@ body, html {
     height: 100%;
     background-color: #87ceeb; /* Sky color for background */
     overflow: hidden; /* Prevent scrolling */
+    transition: transform 0.1s linear; /* Smooth camera transitions */
 }
 
 /* Platform styling */
