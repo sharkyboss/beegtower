@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
     const container = document.getElementById('game-container');
-    const numberOfPlatforms = 100;
+    const numberOfPlatforms = 200;
 
     // Variables for player movement and jump
     let playerPosX = window.innerWidth / 2 - 25; // Start horizontally centered
@@ -23,7 +23,7 @@ document.addEventListener('DOMContentLoaded', () => {
     
     // Randomly position the platforms with more vertical spacing
     platforms.forEach(platform => {
-        const randomTop = Math.random() * (window.innerHeight * 2); // Spread vertically
+        const randomTop = Math.random() * (window.innerHeight * 4); // Spread vertically
         const randomLeft = Math.random() * (window.innerWidth - 100); // Spread horizontally
         platform.style.top = `${randomTop}px`;
         platform.style.left = `${randomLeft}px`;
