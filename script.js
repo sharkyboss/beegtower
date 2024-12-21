@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
     const container = document.getElementById('game-container');
-    const numberOfPlatforms = 200;
+    const numberOfPlatforms = 100;
 
     // Variables for player movement and jump
     let playerPosX = window.innerWidth / 2 - 25; // Start horizontally centered
@@ -23,7 +23,7 @@ document.addEventListener('DOMContentLoaded', () => {
     
     // Randomly position the platforms with more vertical spacing
     platforms.forEach(platform => {
-        const randomTop = Math.random() * (window.innerHeight * 4); // Spread vertically
+        const randomTop = Math.random() * (window.innerHeight * 2); // Spread vertically
         const randomLeft = Math.random() * (window.innerWidth - 100); // Spread horizontally
         platform.style.top = `${randomTop}px`;
         platform.style.left = `${randomLeft}px`;
@@ -35,9 +35,10 @@ document.addEventListener('DOMContentLoaded', () => {
     container.appendChild(player);
 
     // Camera setup (tracks player position)
-    const cameraSpeed = 5;
     let cameraOffsetX = 0;
     let cameraOffsetY = 0;
+    const cameraSpeed = 8; // Control the speed of camera movement
+    const margin = 100; // Dead zone where the camera doesn't move unless the player is beyond this distance
 
     // Listen for key events
     window.addEventListener('keydown', (e) => {
@@ -92,17 +93,19 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
 
-        // Camera follow player
-        if (playerPosX > window.innerWidth / 2) {
-            cameraOffsetX += cameraSpeed;
-        } else {
-            cameraOffsetX -= cameraSpeed;
+        // Camera follow player (smooth tracking)
+        // Horizontal camera movement
+        if (playerPosX - cameraOffsetX > window.innerWidth / 2 - margin) {
+            cameraOffsetX += cameraSpeed; // Move right
+        } else if (playerPosX - cameraOffsetX < window.innerWidth / 2 - margin) {
+            cameraOffsetX -= cameraSpeed; // Move left
         }
 
-        if (playerPosY > window.innerHeight / 2) {
-            cameraOffsetY += cameraSpeed;
-        } else {
-            cameraOffsetY -= cameraSpeed;
+        // Vertical camera movement
+        if (playerPosY - cameraOffsetY > window.innerHeight / 2 - margin) {
+            cameraOffsetY += cameraSpeed; // Move down
+        } else if (playerPosY - cameraOffsetY < window.innerHeight / 2 - margin) {
+            cameraOffsetY -= cameraSpeed; // Move up
         }
 
         // Apply camera offset to the game container to simulate camera movement
