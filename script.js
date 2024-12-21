@@ -74,24 +74,25 @@ document.addEventListener('DOMContentLoaded', () => {
         if (playerPosX < 0) playerPosX = 0;
         if (playerPosX > window.innerWidth - 50) playerPosX = window.innerWidth - 50;
 
-        // Update player position
-        player.style.left = `${playerPosX}px`;
-        player.style.top = `${playerPosY}px`;
-
         // Check for collisions with platforms (simple example)
         platforms.forEach(platform => {
             const platformRect = platform.getBoundingClientRect();
             const playerRect = player.getBoundingClientRect();
 
             // Simple collision detection (if player touches platform)
-            if (playerRect.bottom <= platformRect.top && playerRect.right >= platformRect.left && playerRect.left <= platformRect.right) {
+            if (playerRect.bottom <= platformRect.top && 
+                playerRect.right >= platformRect.left && 
+                playerRect.left <= platformRect.right &&
+                velocityY > 0) { // Only stop if player is falling
                 // If falling and on top of the platform, stop falling
-                if (velocityY > 0) {
-                    playerPosY = platformRect.top - 50; // Place player on top of platform
-                    velocityY = 0;
-                }
+                playerPosY = platformRect.top - 50; // Place player on top of platform
+                velocityY = 0; // Stop falling
             }
         });
+
+        // Update player position
+        player.style.left = `${playerPosX}px`;
+        player.style.top = `${playerPosY}px`;
 
         // Camera follow player (smooth tracking)
         // Horizontal camera movement
