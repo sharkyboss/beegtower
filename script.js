@@ -101,11 +101,13 @@ document.addEventListener('DOMContentLoaded', () => {
             cameraOffsetX -= cameraSpeed; // Move left
         }
 
-        // Vertical camera movement
-        if (playerPosY - cameraOffsetY > window.innerHeight / 2 - margin) {
-            cameraOffsetY += cameraSpeed; // Move down
-        } else if (playerPosY - cameraOffsetY < window.innerHeight / 2 - margin) {
-            cameraOffsetY -= cameraSpeed; // Move up
+        // Vertical camera movement (only adjust when player moves vertically)
+        if (Math.abs(playerPosY - cameraOffsetY) > margin) {
+            if (playerPosY - cameraOffsetY > window.innerHeight / 2) {
+                cameraOffsetY += cameraSpeed; // Move down
+            } else if (playerPosY - cameraOffsetY < window.innerHeight / 2) {
+                cameraOffsetY -= cameraSpeed; // Move up
+            }
         }
 
         // Apply camera offset to the game container to simulate camera movement
